@@ -1,7 +1,5 @@
 package org.mumineen;
 
-import java.util.Arrays;
-
 public class MdoSalaat{
     //load library
     static {
@@ -53,10 +51,4 @@ public class MdoSalaat{
      *          [9] = Nisful Layl End
      */
     public static native long[] getAllTimesRounded(int year, int month, int day, double latitude, double longitude, double altitude);
-
-    public static void main(String[] args){
-        long[] times = MdoSalaat.getAllTimes(2020, 8, 9, 42.5112, -83.3466, 0);
-
-        System.out.println(Arrays.toString(times));
-    }
 }
