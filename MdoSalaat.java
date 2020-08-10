@@ -3,7 +3,7 @@ package org.mumineen;
 public class MdoSalaat{
     //load library
     static {
-        System.loadLibrary("MDOSalaat");
+        System.loadLibrary("MDOLib");
     }
 
     /*
