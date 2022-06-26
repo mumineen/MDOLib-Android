@@ -2,6 +2,8 @@
 
 This repo contains a precompiled implementation of the MDO Salaat algorithm.  The algorithm takes the date, latitude, longitude, and altitude as parameters, and returns all times as Unix timestamps (seconds since 1/1/1970 00:00 UTC).
 
+If a time cannot be calculated on the given day at the given location, it is returned as -1.
+
 Includes shared object files for 4 architectures: arm64, arm, x86, x86_64. 
 
 The java source (declaring the methods that have been implemented in the shared object files) is included in MdoSalaat.java.  The java source and shared object files can be used to create the module in Android Studio.  Note that the package name "org.mumineen.MdoSalaat" must not be changed as the shared objects are compiled assuming that to be the package name.
