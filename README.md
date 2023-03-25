@@ -58,4 +58,45 @@ The Java source defines two methods which are implemented in the shared object f
      *          [9] = Nisful Layl End
      */
     public static native long[] getAllTimesRounded(int year, int month, int day, double latitude, double longitude, double altitude);
+    
+     /*
+    *
+    * roundedSalaatDictForDate - returns a dictionary of the salaat times for the day
+    * @param dateIn - The current date as a LocalDate object
+    * @param latitude - Latitude
+    * @param longitude - Longitude
+    * @param altitude - Altitude
+    * @return Map<String, Instant> - A map of the times in GMT as LocalDateTime objects
+    * Keys:
+    *   sihori, fajr, sunrise, zawaal, zohr_end, asr_end, maghrib, maghrib_end, nisful_layl, nisful_layl_end
+     */
+    public static Map<String, Instant> roundedSalaatDictForDate(LocalDate dateIn, double latitude, double longitude, double altitude);
+    
+    /*
+     *
+     * roundedSalaatDictForDateWithExtraTimes - returns a dictionary of the salaat times for the day, with the option to add
+     *      the previous day's nisful layl and nisful layl end times, and/or the next day's sihori
+     * @param dateIn - The current date as a LocalDate object
+     * @param latitude - Latitude
+     * @param longitude - Longitude
+     * @param altitude - Altitude
+     * @param withPreviousNL - whether to include the previous day's nisful layl and nisful layl end
+     * @param withNextSihori - whether to include the next day's sihori
+     * @return Map<String, Instant> - A map of the times in GMT as Instant objects
+     * Keys:
+     *   sihori, fajr, sunrise, zawaal, zohr_end, asr_end, maghrib, maghrib_end, nisful_layl, nisful_layl_end
+     *   Optional: next_sihori, prev_nisful_layl, prev_nisful_layl_end
+     */
+      public static Map<String, Instant> roundedSalaatDictForDateWithExtraTimes(LocalDate dateIn, double latitude, double longitude, double altitude, Boolean withPreviousNL, Boolean withNextSihori);
+      
+      /*
+     * getNextTime - Returns the earliest upcoming time for a given date and time.
+     * @param currTimeIn - Object containing the current time
+     * @param latitude - Latitude
+     * @param longitude - Longitude
+     * @param altitude - Altitude
+     * @return Map<String, Instant> - A dictionary containing a single key-value pair of the name and time that
+     * is the earliest upcoming.  Will return null if there are no upcoming times in the day
+    */
+    public static Map<String, Instant> getNextTime(Instant currTimeIn, double latitude, double longitude, double altitude);
 ```
