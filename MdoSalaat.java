@@ -63,15 +63,15 @@ public class MdoSalaat{
 
 
     /*
-    *
-    * roundedSalaatDictForDate - returns a dictionary of the salaat times for the day
-    * @param dateIn - The current date as a LocalDate object
-    * @param latitude - Latitude
-    * @param longitude - Longitude
-    * @param altitude - Altitude
-    * @return Map<String, Instant> - A map of the times in GMT as LocalDateTime objects
-    * Keys:
-    *   sihori, fajr, sunrise, zawaal, zohr_end, asr_end, maghrib, maghrib_end, nisful_layl, nisful_layl_end
+     *
+     * roundedSalaatDictForDate - returns a dictionary of the salaat times for the day
+     * @param dateIn - The current date as a LocalDate object
+     * @param latitude - Latitude
+     * @param longitude - Longitude
+     * @param altitude - Altitude
+     * @return Map<String, Instant> - A map of the times in GMT as LocalDateTime objects
+     * Keys:
+     *   sihori, fajr, sunrise, zawaal, zohr_end, asr_end, maghrib, maghrib_end, nisful_layl, nisful_layl_end
      */
     public static Map<String, Instant> roundedSalaatDictForDate(LocalDate dateIn, double latitude, double longitude, double altitude){
         int year = dateIn.getYear();
@@ -85,10 +85,12 @@ public class MdoSalaat{
         retDict.put("sihori",           timeArray[0] == -1 ? null : Instant.ofEpochSecond(timeArray[0]));
         retDict.put("fajr",             timeArray[1] == -1 ? null : Instant.ofEpochSecond(timeArray[1]));
         retDict.put("sunrise",          timeArray[2] == -1 ? null : Instant.ofEpochSecond(timeArray[2]));
+        retDict.put("sunrise_safe",     timeArray[2] == -1 ? null : Instant.ofEpochSecond(timeArray[2] - 60));
         retDict.put("zawaal",           timeArray[3] == -1 ? null : Instant.ofEpochSecond(timeArray[3]));
         retDict.put("zohr_end",         timeArray[4] == -1 ? null : Instant.ofEpochSecond(timeArray[4]));
         retDict.put("asr_end",          timeArray[5] == -1 ? null : Instant.ofEpochSecond(timeArray[5]));
         retDict.put("maghrib",          timeArray[6] == -1 ? null : Instant.ofEpochSecond(timeArray[6]));
+        retDict.put("maghrib_safe",     timeArray[6] == -1 ? null : Instant.ofEpochSecond(timeArray[6] + 60));
         retDict.put("maghrib_end",      timeArray[7] == -1 ? null : Instant.ofEpochSecond(timeArray[7]));
         retDict.put("nisful_layl",      timeArray[8] == -1 ? null : Instant.ofEpochSecond(timeArray[8]));
         retDict.put("nisful_layl_end",  timeArray[9] == -1 ? null : Instant.ofEpochSecond(timeArray[9]));
@@ -137,7 +139,7 @@ public class MdoSalaat{
      * @param altitude - Altitude
      * @return Map<String, Instant> - A dictionary containing a single key-value pair of the name and time that
      * is the earliest upcoming.  Will return null if there are no upcoming times in the day
-    */
+     */
     public static Map<String, Instant> getNextTime(Instant currTimeIn, double latitude, double longitude, double altitude){
         Map<String, Instant> extraTimesDict = MdoSalaat.roundedSalaatDictForDateWithExtraTimes(currTimeIn.atZone(ZoneId.systemDefault()).toLocalDate(), latitude, longitude, altitude, true, true);
 
@@ -147,11 +149,11 @@ public class MdoSalaat{
         timesArray.add(extraTimesDict.get("prev_nisful_layl"));
         timesArray.add(extraTimesDict.get("prev_nisful_layl_end"));
         timesArray.add(extraTimesDict.get("sihori"));
-        timesArray.add(extraTimesDict.get("sunrise"));
+        timesArray.add(extraTimesDict.get("sunrise_safe"));
         timesArray.add(extraTimesDict.get("zawaal"));
         timesArray.add(extraTimesDict.get("zohr_end"));
         timesArray.add(extraTimesDict.get("asr_end"));
-        timesArray.add(extraTimesDict.get("maghrib"));
+        timesArray.add(extraTimesDict.get("maghrib_safe"));
         timesArray.add(extraTimesDict.get("nisful_layl"));
         timesArray.add(extraTimesDict.get("nisful_layl_end"));
         timesArray.add(extraTimesDict.get("next_sihori"));
@@ -159,11 +161,11 @@ public class MdoSalaat{
         namesArray.add("prev_nisful_layl");
         namesArray.add("prev_nisful_layl_end");
         namesArray.add("sihori");
-        namesArray.add("sunrise");
+        namesArray.add("sunrise_safe");
         namesArray.add("zawaal");
         namesArray.add("zohr_end");
         namesArray.add("asr_end");
-        namesArray.add("maghrib");
+        namesArray.add("maghrib_safe");
         namesArray.add("nisful_layl");
         namesArray.add("nisful_layl_end");
         namesArray.add("next_sihori");
